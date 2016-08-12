@@ -126,14 +126,13 @@ trait CorsDirectives {
               reject(CorsRejection(invalidOrigin, None, None))
           }
 
-        case _ if allowGenericHttpRequests ⇒
+        case (`method`, maybeOrigins, maybeMethod) if allowGenericHttpRequests ⇒
           // Case 3a: not a valid CORS request, but allowed
-
+          println(s"""method: ${`method`}, maybeOrigins: $maybeOrigins, maybeMethod: $maybeMethod""")
           provide(CorsDecorate.NotCorsRequest)
-
-        case _ ⇒
+        case (`method`, maybeOrigins, maybeMethod) ⇒
           // Case 3b: not a valid CORS request, forbidden
-
+          println(s"""method: ${`method`}, maybeOrigins: $maybeOrigins, maybeMethod: $maybeMethod""")
           reject(CorsRejection(None, None, None))
       }
     }
